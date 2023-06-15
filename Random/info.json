@@ -1,0 +1,10 @@
+{
+	"author" : ["Eslyium (Eslyium#1949)", "Yukirin (Yukirin#0048)", "Neuro Assassin"],
+    "install_msg" : "thanks for installing `Random`!",
+    "name" : "Random",
+    "short" : "Post animal pics and generates colors",
+    "description" : "Post animal pics from API sites and generates colors. Code based off of Yukirin's `Animal` and Neuro Assassin's `color` cogs.",
+    "disabled" : false,
+    "tags" : ["animal", "image", "picture", "cat", "dog", "fox"],
+	"requirements" : ["colour"],
+}
