@@ -13,7 +13,7 @@ class Random(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession()
-        self.catapi = "https://shibe.online/api/cats"
+        self.catapi = "https://api.thecatapi.com/v1/images/search"
         self.dogapi = "https://dog.ceo/api/breeds/image/random"
         self.foxapi = "http://wohlsoft.ru/images/foxybot/randomfox.php"
         self.error_message = "An API error occured. Probably just a hiccup.\nIf this error persists for several days, please report it."
@@ -59,7 +59,7 @@ class Random(commands.Cog):
         try:
             async with self.session.get(self.catapi) as r:
                 result = await r.json()
-            await ctx.send(result[0])
+            await ctx.send(result[0].get('url'))
         except:
             await ctx.send(self.error_message)
 
