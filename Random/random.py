@@ -1,10 +1,12 @@
 import aiohttp
 import discord
+import os
 import random
 import re
 
 from colour import Color as col
 from colour import rgb2hex
+from PIL import Image
 from redbot.core import commands
 
 class Random(commands.Cog):
@@ -33,7 +35,7 @@ class Random(commands.Cog):
             rgb = tuple([int(c * 255) for c in co.rgb])
         hexa = rgb2hex(co.rgb, force_long=True)
         extended = ", ".join([f"{(part*255):.0f}" for part in co.rgb])
-        return extended
+        return extended, rgb
         
     @commands.group()
     async def random(self, ctx):
@@ -47,11 +49,18 @@ class Random(commands.Cog):
         color3 = f"#{color2}"
         match = re.match(r"(?i)^(?:0x|#|)((?:[a-fA-F0-9]{3}){1,2})$", color3)
         c = col("#" + match.group(1))
-        extended = await self.build_embed(c)
+        extended, rgb = await self.build_embed(c)
+        img = Image.new(mode = "RGB", size = (600, 200), color = rgb)
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+        path = os.path.join(script_dir, "imgcache")
+        os.makedirs(path, exist_ok=True)
+        img.save(f"{script_dir}/imgcache/{color2}.webp", "WEBP", lossless=True, quality=100, method=6)
+        file = discord.File(f"{script_dir}/imgcache/{color2}.webp", filename=f"{color2}.webp")
         embed = discord.Embed(title="", description=f"rgb: {extended}", color=color)
         embed.set_author(name=f"random color — {color3}")
-        embed.set_image(url=f"https://fakeimg.pl/600x200/{color2}/?text=%20")
-        await ctx.send(embed=embed)
+        embed.set_image(url=f"attachment://{color2}.webp")
+        await ctx.send(file=file, embed=embed)
+        os.remove(f"{script_dir}/imgcache/{color2}.webp")
 
     @random.command()
     async def cat(self, ctx):
