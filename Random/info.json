@@ -5,4 +5,4 @@
 "description" : "Posts animal pics from API sites and generates colors. Code based off of Yukirin's `Animal` and Neuro Assassin's `color` cogs.",
 "disabled" : false,
 "tags" : ["animal", "image", "picture", "cat", "dog", "fox"],
-"requirements" : ["colour"]}
+"requirements" : ["colour", "pillow"]}
